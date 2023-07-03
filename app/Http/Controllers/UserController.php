@@ -25,6 +25,16 @@ class UserController extends Controller
         );
     }
 
+    function v2index()
+    {
+        return new JsonResponse(
+            [
+                "data" => "hello from index version 2",
+                "req" => "get request"
+            ]
+        );
+    }
+
     /**
      * Store a newly created resource in storage.
      *
