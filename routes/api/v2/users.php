@@ -5,7 +5,9 @@ use App\Http\Controllers\UserController;
 use GuzzleHttp\Middleware;
 use Illuminate\Support\Facades\Route;
 
-Route::group([
+Route::group(/**
+ * @return void
+ */ [
     // "middleware" => ['auth'],
     "as" => 'users.',
 

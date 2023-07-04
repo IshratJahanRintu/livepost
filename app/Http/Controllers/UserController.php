@@ -25,7 +25,7 @@ class UserController extends Controller
         );
     }
 
-    function v2index()
+    function v2index(): JsonResponse
     {
         return new JsonResponse(
             [
@@ -41,7 +41,7 @@ class UserController extends Controller
      * @param  \App\Http\Requests\StorePostRequest  $request
      *  @return \Illuminate\Http\JsonResponse
      */
-    public function store()
+    public function store(): JsonResponse
     {
         return new JsonResponse(
             [

@@ -13,9 +13,9 @@ Route::group([
 ], function () {
 
     Route::get('/users', 'UserController@index')->name('index');
-    Route::get("/users/{user}", 'UserController@show')->name('show');
+    Route::get("/users/{user}", 'UserController@show')->name('show')->where('user', '[0-9]+');
     Route::post("/users", [UserController::class, 'store'])->name('store');
-    Route::patch("/users/{user}", [UserController::class, 'update'])->name('update');
+    Route::patch("/users/{user}", [UserController::class, 'update'])->name('update')->whereNumber('user');
     Route::delete("/users", [UserController::class, 'destroy'])->name('destroy');
 });
 
