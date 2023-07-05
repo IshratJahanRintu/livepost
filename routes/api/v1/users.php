@@ -16,7 +16,7 @@ Route::group([
     Route::get("/users/{user}", 'UserController@show')->name('show')->where('user', '[0-9]+');
     Route::post("/users", [UserController::class, 'store'])->name('store');
     Route::patch("/users/{user}", [UserController::class, 'update'])->name('update')->whereNumber('user');
-    Route::delete("/users", [UserController::class, 'destroy'])->name('destroy');
+    Route::delete("/users/{user}", [UserController::class, 'destroy'])->name('destroy');
 });
 
 // Route::middleware('auth')->name('users.')->namespace('\App\Http\Controllers')->group(function () {

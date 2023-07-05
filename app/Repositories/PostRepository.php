@@ -24,7 +24,7 @@ class PostRepository extends BaseRepository
 
     }
 
-    function update(Post $post, $attributes)
+    function update( $post, $attributes)
     {
         $updated = $post->update([
             'title' => data_get($attributes, 'title', 'untitled'),
@@ -40,7 +40,7 @@ class PostRepository extends BaseRepository
 
     }
 
-    function delete(Post $post)
+    function delete($post)
     {
         $deleted = $post->forceDelete();
         return new JsonResponse(

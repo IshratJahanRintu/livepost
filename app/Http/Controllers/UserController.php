@@ -2,21 +2,26 @@
 
 namespace App\Http\Controllers;
 
+
+use App\Events\Models\User\UserCreated;
+use App\Http\Resources\UserResource;
 use App\Models\User;
-use App\Http\Requests\StorePostRequest;
-use App\Http\Requests\UpdatePostRequest;
-use \Illuminate\Http\JsonResponse;
-use \Illuminate\Request;
+use App\Repositories\UserRepository;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+
+
 
 class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function index()
     {
+
         return new JsonResponse(
             [
                 "data" => "hello",
@@ -38,24 +43,24 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\StorePostRequest  $request
-     *  @return \Illuminate\Http\JsonResponse
+     * @param Request $request
+     * @param UserRepository $repository
+     * @return UserResource
      */
-    public function store(): JsonResponse
+    public function store(Request $request, UserRepository $repository)
     {
-        return new JsonResponse(
-            [
-                "data" => "hello",
-                "req" => "store request"
-            ]
-        );
+        return $repository->create($request->only([
+            'name',
+            'email',
+            'password'
+        ]));
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\User  $user
-     *  @return \Illuminate\Http\JsonResponse
+     * @param User $user
+     * @return JsonResponse
      */
     public function show(User $user)
     {
@@ -70,33 +75,29 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\UpdatePostRequest  $request
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\JsonResponse
+     * @param Request $request
+     * @param User $user
+     * @return \App\Http\Resources\UserResource
      */
-    public function update(User $user)
+    public function update(User $user, Request $request, UserRepository $repository)
     {
-        return new JsonResponse(
+        event(new UserCreated($user));
+        return $repository->update($user, $request->only(
             [
-                "data" => $user,
-                "req" => "update request"
+                'name',
+                'email', 'password'
             ]
-        );
+        ));
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\User  $user
-     *  @return \Illuminate\Http\JsonResponse
+     * @param User $user
+     * @return JsonResponse
      */
-    public function destroy(User $user)
+    public function destroy(User $user, UserRepository $repository)
     {
-        return new JsonResponse(
-            [
-                "data" => "hello",
-                "req" => "destro request"
-            ]
-        );
+        return $repository->delete($user);
     }
 }
